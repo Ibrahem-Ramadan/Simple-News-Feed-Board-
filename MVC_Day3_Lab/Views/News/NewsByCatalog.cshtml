@@ -1,0 +1,67 @@
+﻿@using PagedList.Mvc
+@model PagedList.PagedList<New>
+
+@foreach (var nw in Model)
+{
+    <div class="panel panel-info">
+        <div class="panel-heading" style="width:100%">
+            @Html.ActionLink($"{@nw.Catalog.CatName}", "Index", new { sortAttribute = "catName" })
+
+
+            <div style="float:right">
+                @Html.ActionLink("Edit", "Edit", new { id = nw.NewId }, new { @class = "text-success" })
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="media">
+                <div class="media-left media-middle">
+                    <a href="#">
+                        @if (nw.NewPhoto == null)
+                        {
+                            <img class="media-object" src="https://previews.123rf.com/images/alhovik/alhovik1709/alhovik170900030/86470279-breaking-news-background-world-global-tv-news-banner-design.jpg" width="300">
+
+                        }
+                        else
+                        {
+                            <img class="media-object" src="~/Attachments/@nw.NewPhoto" width="300">
+
+                        }
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h3 class="media-heading">@nw.NewTitle</h3>
+                    <p>@nw.NewBreif</p>
+                    @Ajax.ActionLink("View Details", "Details", new { id = nw.NewId }, new AjaxOptions()
+                    {
+                        UpdateTargetId = "modalDetails",
+                        InsertionMode = InsertionMode.Replace,
+                        OnComplete = "show"
+                    })
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            Posted at @Html.ActionLink($"{@nw.DateTime}", "Index", new { sortAttribute = "time" })
+            <div style="float:right">
+                @Html.ActionLink("Delete", "Delete", new { id = nw.NewId }, new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+}
+
+<div id="myPager">
+    @Html.PagedListPager(Model, n => Url.Action("Index", new { pageNo = n, sortAttribute = ViewBag.sort, search = ViewBag.search }))
+</div>
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+
+        <div class="modal-content" id="modalDetails">
+
+        </div>
+    </div>
+</div>
+
+
+

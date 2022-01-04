@@ -1,0 +1,58 @@
+﻿@model New
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Add Your News </h2>
+<hr />
+
+<form method="post" enctype="multipart/form-data" class="p-3 ">
+    <fieldset>
+
+        <div class="row">
+            <div class="form-group  col-lg-12 mt-4">
+                @Html.LabelFor(n => n.NewTitle, new { @class = "form-label  mt-4 " })
+                @Html.TextBoxFor(n => n.NewTitle, new { type = "text", @class = "form-control  ", placeholder = "Title" })
+                @Html.ValidationMessageFor(n => n.NewTitle)
+            </div>
+            <div class="form-group  col-lg-12 mt-4">
+                @Html.LabelFor(n => n.NewBreif, new { @class = "form-label  mt-4" })
+                @Html.TextAreaFor(n => n.NewBreif, new { type = "text", @class = "form-control  ", placeholder = "Breif" })
+                @Html.ValidationMessageFor(n => n.NewBreif)
+            </div>
+            <div class="form-group  col-lg-12 mt-4 ">
+                @Html.LabelFor(n => n.NewDesc, new { @class = "form-label  mt-4" })
+                @Html.TextAreaFor(n => n.NewDesc, new { type = "text", @class = "form-control ", placeholder = "Discription" })
+                @Html.ValidationMessageFor(n => n.NewDesc)
+
+            </div>
+            <div class="form-group col-lg-12 mt-4">
+                @Html.LabelFor(n => n.NewPhoto, new { @class = "form-label mt-4" })
+                @Html.TextBoxFor(n => n.NewPhoto, new { type = "file", @class = "form-control" })
+            </div>
+
+            <div class="form-group col-lg-12 mt-4">
+                @Html.LabelFor(n => n.CatId, new { @class = "form-label mt-4" })
+                @Html.DropDownListFor(n => n.CatId, (SelectList)ViewBag.cat,"Select Cataloge", new {@class = "form-control" })
+            </div>
+
+            <div class="form-group col-lg-12 mt-4">
+                @Html.LabelFor(n => n.DateTime, new { @class = "form-label mt-4" })
+                @Html.TextBoxFor(n => n.DateTime, new { type = "datetime-local", @class = "form-control" })
+            </div>
+
+        </div>
+
+        <div class="row col-lg-12 form-group">
+            <button type="submit" class="btn btn-primary ">Submit</button>
+
+        </div>
+    </fieldset>
+</form>
+
+@section scripts{
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+}

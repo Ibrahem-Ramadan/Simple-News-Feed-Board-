@@ -1,0 +1,78 @@
+﻿@using PagedList.Mvc
+@model PagedList.PagedList<New>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div class="col-sm-3">
+        <h2>News Feed</h2>
+    </div>
+    <div class="col-sm-3" style="margin-top:20px">
+        @Html.DropDownList("Catalog", (SelectList)ViewBag.cat, "Select Catalog", new { @class = "form-control" })
+    </div>
+    <div class="col-sm-5" style="margin-top:20px">
+        <form class="form-inline ">
+            @Html.TextBox("search", "", new { @class = "form-control", placeholder = "Search" })
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
+    <div class="col-sm-1" style="margin-top:20px">
+        @Html.ActionLink("Add News", "Create", null, new { @class = "btn btn-primary" })
+    </div>
+</div>
+
+<hr />
+
+<div id="newsList">
+    @*Partial View News By Catalog*@
+
+</div>
+
+
+@section scripts{
+
+    <script>
+        //dropdownlist on change event
+        let id = $("#Catalog").val();
+        $("#Catalog").on("change", function () {
+            let id = $("#Catalog").val();
+            $("#newsList").load("/News/NewsByCatalog?catId=" + id + "&pageNo=1")
+        })
+        //Page Load Event
+        $(function () {
+            let id = $("#Catalog").val();
+            $("#newsList").load("/News/NewsByCatalog?catId=" + id + "&pageNo=1")
+            
+        })
+
+        $(document).ready(function () {
+            $(document).on('click', '#myPager a[href]', function () {
+                let id = $("#Catalog").val();
+                // ajax call
+                $.ajax({
+                    URL: $(this).attr("href"),
+                    type: "GET",
+                    cache: false,
+                    success: function (result) {
+                        //$('#').html();
+                        $("#newsList").load("/News/NewsByCatalog?catId=" + id + "&pageNo=" + result)
+                    }
+                });
+                return false;
+            });
+        });
+
+    </script>
+
+
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script>
+        function show() {
+            $(".modal").modal({ show: true })
+        }
+    </script>
+}
+

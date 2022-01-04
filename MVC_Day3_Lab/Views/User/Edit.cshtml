@@ -1,0 +1,95 @@
+﻿@model User
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit User Profile</h2>
+<hr />
+<form method="post" enctype="multipart/form-data" class="p-3">
+    @Html.HiddenFor(u => u.UserId)
+    @Html.HiddenFor(u => u.Password)
+    @Html.HiddenFor(u => u.ConfPassword)
+    <fieldset>
+        <br />
+        <div class="row">
+            <div class="col-lg-6 ">
+                <div class="form-group  mt-4">
+                    @if (Model.Photo == null)
+                    {
+                        @Html.LabelFor(u => u.Photo, new { @class = "form-label mt-4" })
+                        @Html.TextBoxFor(u => u.Photo, new { name = "Photo", type = "file", @class = "form-control" })
+                    }
+                    else
+                    {
+                        <img src="~/Attachments/@Model.Photo" width="80" /><br />
+                        @Html.Label("Change Photo", new { @class = "form-label mt-4" })
+                        @Html.TextBoxFor(u => u.Photo, new { name = "Photo", type = "file", @class = "form-control" })
+                    }
+                    <br />
+                </div>
+                <div class="form-group  mt-4">
+                    @if (Model.CV == null)
+                    {
+                        @Html.LabelFor(u => u.CV, new { @class = "form-label mt-4" })
+                        @Html.TextBoxFor(u => u.CV, new { name = "CV", type = "file", @class = "form-control" })
+                    }
+                    else
+                    {
+                        <a href="~/Attachments/@Model.CV" width="80">View CV</a> <br />
+                        @Html.Label("Update CV", new { @class = "form-label mt-4" })
+                        @Html.TextBoxFor(u => u.CV, new { name = "CV", type = "file", @class = "form-control" })
+                    }
+                </div>
+                <div class="form-group mt-4 ">
+                    <fieldset class="form-group row col-lg-8">
+                        <legend class="mt-4">Skills</legend>
+
+                        @for (int i = 0; i < Model.Skills.Count; i++)
+                        {
+                            <div class="form-check col-lg-4">
+                                @Html.CheckBoxFor(u => u.Skills[i].IsSelected, new { @class = "form-check-input" })
+                                @Html.DisplayFor(u => u.Skills[i].SkillName)
+                                @Html.HiddenFor(u => u.Skills[i].SkillName)
+                                @Html.HiddenFor(u => u.Skills[i].SkillId)
+                            </div>
+                        }
+
+                    </fieldset>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group  mt-4">
+                    @Html.LabelFor(u => u.Username, new { @class = "form-label mt-4 " })
+                    @Html.TextBoxFor(u => u.Username, new { type = "text", @class = "form-control", placeholder = "Enter Username" })
+                    @Html.ValidationMessageFor(u => u.Username)
+                </div>
+
+                <!--Email-->
+                <div class="form-group mt-4">
+                    @Html.LabelFor(u => u.Email, new { @class = "form-label mt-4" })
+                    @Html.TextBoxFor(u => u.Email, new { type = "email", @class = "form-control", placeholder = "Enter email" })
+                    @Html.ValidationMessageFor(u => u.Email)
+                </div>
+
+                <div class="form-group  mt-4">
+                    @Html.LabelFor(u => u.Age, new { @class = "form-label mt-4" })
+                    @Html.TextBoxFor(u => u.Age, new { type = "text", @class = "form-control", placeholder = "Age" })
+                    @Html.ValidationMessageFor(u => u.Age)
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row col-lg-12 form-group">
+            <button type="submit" class="btn btn-primary ">Save Changes</button>
+
+        </div>
+    </fieldset>
+</form>
+
+@section scripts{
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+}

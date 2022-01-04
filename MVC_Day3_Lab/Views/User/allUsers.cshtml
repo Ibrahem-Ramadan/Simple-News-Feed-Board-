@@ -1,0 +1,93 @@
+﻿    @using PagedList.Mvc
+@model PagedList.PagedList<User>
+@{
+    ViewBag.Title = "allUsers";
+}
+
+<br />
+<br />
+
+
+<br />
+
+<table class="table table-striped">
+
+    <thead>
+        <tr>
+            <td colspan="3">
+                <form class="form-inline ">
+                    @Html.TextBox("Search","" , new { @class = "form-control", placeholder = "Search" })
+                   
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </td>
+            <td></td>
+    
+
+        </tr>
+        <tr>
+            <th>Photo</th>
+            <th>@Html.ActionLink("Username", "allUsers", new { sortAttribute = "username" })</th>
+            <th>@Html.ActionLink("E-Mail", "allUsers", new { sortAttribute = "email" })</th>
+            <th>@Html.ActionLink("Age", "allUsers", new { sortAttribute = "age" })</th>
+            <th>@Html.DisplayNameFor(n => n[0].Skills) </th>
+            <th>CV</th>
+            <th>Operations</th>
+        </tr>
+
+    </thead>
+    <tbody>
+
+        @foreach (var user in Model)
+        {
+            <tr>
+                @if (user.Photo != null)
+                {
+                    <td style="vertical-align: middle"><img src="~/Attachments/@user.Photo" alt="Photo" class="rounded-circle" width="100" height="100"></td>
+                }
+                else
+                {
+                    <td style="vertical-align: middle"><img src="https://www.pngall.com/wp-content/uploads/5/Profile-PNG-Clipart.png" alt="Photo" class="rounded-circle" width="100" height="100"></td>
+                }
+                <td style="vertical-align: middle">@user.Username</td>
+                <td style="vertical-align: middle">@user.Email</td>
+
+                @if (user.Age != null)
+                {
+                    <td style="vertical-align: middle">@user.Age</td>
+                }
+                else
+                {
+                    <td style="vertical-align: middle">Not Specified</td>
+                }
+                <td style="vertical-align: middle">
+                    <ul class="list-unstyled">
+                        @foreach (var skill in user.Skills)
+                        {
+                            <li>@skill.SkillName</li>
+                        }
+                    </ul>
+                </td>
+                @if (user.CV != null)
+                {
+                    <td style="vertical-align: middle"><a href="~/Attachments/@user.CV">View CV</a></td>
+                }
+                else
+                {
+                    <td style="vertical-align: middle">Not Specified</td>
+                }
+
+                <td style="vertical-align: middle">
+                    @Html.ActionLink("Edit", "Edit", new { id = user.UserId }, new { @class = "btn btn-info" })
+                    @Html.ActionLink("Delete", "Delete", new { id = user.UserId }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+<br />
+@Html.ActionLink("New User", "Register", null, new { @class = "btn btn-primary" })
+<br />
+<br />
+@Html.PagedListPager(Model, n => Url.Action("allUsers", new { pageNo = n, sortAttribute = ViewBag.sort,Search= ViewBag.search }))
